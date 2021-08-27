@@ -67,5 +67,7 @@ using System.Collections;
                 Destroy(impactP, 3.5f); // Removes impact effect after delay
                 Destroy(gameObject); // Removes the projectile
             }
+
+        Destroy(gameObject, 3f);
         }
     }
