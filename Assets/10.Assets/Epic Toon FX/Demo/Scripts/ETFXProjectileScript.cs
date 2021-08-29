@@ -44,8 +44,9 @@ using System.Collections;
 
             float detectionDistance = transform.GetComponent<Rigidbody>().velocity.magnitude * Time.deltaTime; // Distance of collision detection for this frame
 
-            if (Physics.SphereCast(transform.position, radius, direction, out hit, detectionDistance)) // Checks if collision will happen
+            /*if (Physics.SphereCast(transform.position, radius, direction, out hit, detectionDistance)) // Checks if collision will happen
             {
+            Debug.Log("1");
                 transform.position = hit.point + (hit.normal * collideOffset); // Move projectile to point of collision
 
                 GameObject impactP = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal)) as GameObject; // Spawns impact effect
@@ -66,8 +67,58 @@ using System.Collections;
                 Destroy(projectileParticle, 3f); // Removes particle effect after delay
                 Destroy(impactP, 3.5f); // Removes impact effect after delay
                 Destroy(gameObject); // Removes the projectile
-            }
+            }*/
 
         Destroy(gameObject, 3f);
         }
+
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            GameObject impactP = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject; // Spawns impact effect
+
+            ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>(); // Gets a list of particle systems, as we need to detach the trails
+                                                                                 //Component at [0] is that of the parent i.e. this object (if there is any)
+            for (int i = 1; i < trails.Length; i++) // Loop to cycle through found particle systems
+            {
+                ParticleSystem trail = trails[i];
+
+                if (trail.gameObject.name.Contains("Trail"))
+                {
+                    trail.transform.SetParent(null); // Detaches the trail from the projectile
+                    Destroy(trail.gameObject, 2f); // Removes the trail after seconds
+                }
+            }
+
+            Destroy(projectileParticle, 3f); // Removes particle effect after delay
+            Destroy(impactP, 3.5f); // Removes impact effect after delay
+            Destroy(gameObject); // Removes the projectile
+
+            Destroy(other.gameObject);
+        }
+        if (other.tag == "Floor")
+        {
+            GameObject impactP = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject; // Spawns impact effect
+
+            ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>(); // Gets a list of particle systems, as we need to detach the trails
+                                                                                 //Component at [0] is that of the parent i.e. this object (if there is any)
+            for (int i = 1; i < trails.Length; i++) // Loop to cycle through found particle systems
+            {
+                ParticleSystem trail = trails[i];
+
+                if (trail.gameObject.name.Contains("Trail"))
+                {
+                    trail.transform.SetParent(null); // Detaches the trail from the projectile
+                    Destroy(trail.gameObject, 2f); // Removes the trail after seconds
+                }
+            }
+
+            Destroy(projectileParticle, 3f); // Removes particle effect after delay
+            Destroy(impactP, 3.5f); // Removes impact effect after delay
+            Destroy(gameObject); // Removes the projectile
+        }
+
     }
+}

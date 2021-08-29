@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Missile
+  - Enemy
+  - Ground
+  - Floor
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -14,8 +18,8 @@ TagManager:
   - UI
   - Floor
   - Wall
-  - 
-  - 
+  - Player
+  - Ground
   - 
   - 
   - 
