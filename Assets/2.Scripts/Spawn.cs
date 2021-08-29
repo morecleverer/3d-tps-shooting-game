@@ -17,7 +17,7 @@ public class Spawn : MonoBehaviour
     {
         Instantiate(Zombie, transform.position, Quaternion.identity);
 
-        Invoke("Spawning", Random.Range(20f, 30f));
+        Invoke("Spawning", Random.Range(10f, 20f));
 
     }
 }
