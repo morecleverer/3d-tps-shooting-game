@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-    public class ETFXProjectileScript : MonoBehaviour
+public class ETFXProjectileScript : MonoBehaviour
     {
         public GameObject impactParticle; // Effect spawned when projectile hits a collider
         public GameObject projectileParticle; // Effect attached to the gameobject as child
@@ -10,9 +11,14 @@ using System.Collections;
         public float colliderRadius = 1f;
         [Range(0f, 1f)] // This is an offset that moves the impact effect slightly away from the point of impact to reduce clipping of the impact effect
         public float collideOffset = 0.15f;
+        Player player;
+
+
+        
 
         void Start()
         {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
             projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
             projectileParticle.transform.parent = transform;
             if (muzzleParticle)
@@ -95,7 +101,8 @@ using System.Collections;
             Destroy(projectileParticle, 3f); // Removes particle effect after delay
             Destroy(impactP, 3.5f); // Removes impact effect after delay
             Destroy(gameObject); // Removes the projectile
-
+            player.ScoreUp();
+            
             Destroy(other.gameObject);
         }
         if (other.tag == "Floor")
